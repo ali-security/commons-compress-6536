@@ -19,6 +19,10 @@ cache:
   directories:
     - $HOME/.m2
 
+
+script:
+  - rm -f .github/workflows/empty.yml || true
+  
 # https://docs.travis-ci.com/user/reference/linux/
 # Must use a fixed distribution (and remember to occassionally upgrade..)
 # Try to force to use the latest Java 11 instead of 11.0.2 to fix 
@@ -31,7 +35,7 @@ jdk:
   - openjdk15
 #  - openjdk-ea
 # currently fails on Java 17-ea with "Unable to make protected final java.lang.Class java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int) throws java.lang.ClassFormatError accessible: module java.base does not "opens java.lang" to unnamed module"
-
+  
 matrix:
 # Remove the outdated OpenJDK 11.0.2 which Travis image grabbed from java.net in
 # https://github.com/travis-ci/travis-cookbooks/blob/master/cookbooks/travis_jdk/files/install-jdk.sh#L200
