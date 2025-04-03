@@ -73,7 +73,7 @@ public class DumpArchiveInputStreamTest extends AbstractTestCase {
             fail("expected an exception");
         } catch (final ArchiveException ex) {
             // expected
-            assertTrue(ex.getCause() instanceof UnsupportedCompressionAlgorithmException.class);
+            assertTrue(ex.getCause() instanceof UnsupportedCompressionAlgorithmException);
         }
     }
 
