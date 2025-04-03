@@ -68,12 +68,12 @@ public class DumpArchiveInputStreamTest extends AbstractTestCase {
 
     @Test
     public void testInvalidCompressType() throws Exception {
-        try (InputStream is = Files.newInputStream(getFile("org/apache/commons/compress/dump/invalid_compression_type.dump").toPath()) {
+        try (InputStream is = Files.newInputStream(getFile("org/apache/commons/compress/dump/invalid_compression_type.dump").toPath())) {
             new DumpArchiveInputStream(is).close();
             fail("expected an exception");
         } catch (final ArchiveException ex) {
             // expected
-            assertTrue(ex.getCause() isstanceof UnsupportedCompressionAlgorithmException.class);
+            assertTrue(ex.getCause() instanceof UnsupportedCompressionAlgorithmException.class);
         }
     }
 
