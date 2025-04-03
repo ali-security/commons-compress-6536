@@ -18,21 +18,42 @@
  */
 package org.apache.commons.compress.archivers.dump;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.apache.commons.compress.AbstractTestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.junit.Assert;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
-import org.apache.commons.compress.AbstractTestCase;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
+@RunWith(Parameterized.class)
 public class TapeInputStreamTest extends AbstractTestCase {
-    @ParameterizedTest
-    @ValueSource(ints = {-1, 0, Integer.MAX_VALUE / 1000, Integer.MAX_VALUE})
-    public void testResetBlockSizeWithInvalidValues(final int recsPerBlock) throws Exception {
+
+    @Parameters
+    public static Collection<Object[]> data() {
+        return Arrays.asList(new Object[][] {
+            { -1 }, { 0 }, { Integer.MAX_VALUE / 1000 }, { Integer.MAX_VALUE }
+        });
+    }
+
+    private int recsPerBlock;
+
+    public TapeInputStreamTest(int recsPerBlock) {
+        this.recsPerBlock = recsPerBlock;
+    }
+
+    @Test
+    public void testResetBlockSizeWithInvalidValues() throws Exception {
         try (TapeInputStream tapeInputStream = new TapeInputStream(new ByteArrayInputStream(new byte[1]))) {
-            assertThrows(IOException.class, () -> tapeInputStream.resetBlockSize(recsPerBlock, true));
+            IOException exception = Assert.assertThrows(IOException.class, () -> {
+                tapeInputStream.resetBlockSize(recsPerBlock, true);
+            });
+            Assert.assertEquals(IOException.class, exception.getClass());
         }
     }
 }
+
